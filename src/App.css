@@ -1,0 +1,87 @@
+#root {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 20px; /* デフォルトの余白 */
+  text-align: center;
+}
+
+/* 768px以下のスタイル */
+@media (max-width: 768px) {
+  #root {
+    padding: 10px; /* 余白を減らす */
+  }
+
+  .gallery-container {
+    padding: 10px; /* 余白を減らす */
+  }
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+.App {
+  text-align: center;
+  font-family: 'Noto Sans JP', sans-serif; 
+}
+
+h1 {
+  color: white;
+}
+
+/* タイトルのスタイル */
+.gallery-title {
+  font-weight: 700; /* 太字 */
+  font-size: 46px; /* 大きめのフォントサイズ */
+  text-align: center; /* 中央揃え */
+  background: linear-gradient(90deg, #FF6F61, #FFD700); /* グラデーションカラー（コーラルからゴールド） */
+  -webkit-background-clip: text; /* テキストにグラデーションを適用 */
+  background-clip: text;
+  color: transparent; /* グラデーションを適用するために透明に */
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); /* グロー効果 */
+  letter-spacing: 2px; /* 文字間隔を広げる */
+  animation: fadeIn 1.5s ease-in-out; /* フェードインアニメーション */
+}
+
+/* フェードインアニメーション */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
