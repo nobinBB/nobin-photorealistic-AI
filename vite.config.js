@@ -1,8 +1,11 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'; // Reactを使用している場合
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
-  base: '/nobin-photorealistic-AI' // リポジトリ名に合わせる
-});
+  base: mode === 'production' ? '/nobin-photorealistic-AI/' : '/',
+  build: {
+    assetsDir: 'assets',
+    outDir: 'dist'
+  }
+}));
