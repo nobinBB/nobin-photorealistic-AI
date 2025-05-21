@@ -5,8 +5,8 @@ import "./App.css";
 function App() {
   return (
     <div className="App">
-      <h1 class=""><p className="gallery-title">Nobin Sketch</p></h1>
       <ImageGallery />
+      <h1 className="gallery-title">Sweet Mix illustration Works</h1>
     </div>
   );
 }

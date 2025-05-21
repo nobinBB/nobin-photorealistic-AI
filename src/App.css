@@ -1,19 +1,12 @@
 #root {
-  max-width: 1800px;
   margin: 0 auto;
-  padding: 20px; /* デフォルトの余白 */
   text-align: center;
 }
 
 /* 768px以下のスタイル */
-@media (max-width: 768px) {
-  #root {
-    padding: 10px; /* 余白を減らす */
-  }
-
-  .gallery-container {
-    padding: 10px; /* 余白を減らす */
-  }
+.checkPointTtl{
+  padding: 100px 0;
+  color: #000;
 }
 
 .logo {
@@ -53,25 +46,37 @@
 }
 .App {
   text-align: center;
-  font-family: 'Noto Sans JP', sans-serif; 
+}
+@media screen and (max-width: 768px) {
+  .App {
+    position: relative;
+  }
+  
 }
 
 h1 {
   color: white;
 }
 
-/* タイトルのスタイル */
 .gallery-title {
-  font-weight: 700; /* 太字 */
-  font-size: 46px; /* 大きめのフォントサイズ */
-  text-align: center; /* 中央揃え */
-  background: linear-gradient(90deg, #FF6F61, #FFD700); /* グラデーションカラー（コーラルからゴールド） */
-  -webkit-background-clip: text; /* テキストにグラデーションを適用 */
+  position: absolute;
+  margin: 0 auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  font-weight: 700;
+  font-size: 6em;
+  text-align: center;
+  background: #fff;
+  color: #fff;
+  -webkit-background-clip: text;
   background-clip: text;
-  color: transparent; /* グラデーションを適用するために透明に */
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); /* グロー効果 */
-  letter-spacing: 2px; /* 文字間隔を広げる */
-  animation: fadeIn 1.5s ease-in-out; /* フェードインアニメーション */
+  color: transparent;
+  letter-spacing: 2px;
+  animation: fadeIn 1.5s ease-in-out;
+  -webkit-text-stroke: 0.3px #000; /* ごく細い縁取り */
 }
 
 /* フェードインアニメーション */
@@ -84,4 +89,9 @@ h1 {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.title-dis{
+  padding: 10px 0;
+  font-weight: 800;
 }

@@ -1,8 +1,3 @@
-/* コンテナ全体のスタイル */
-.gallery-container {
-  padding: 20px;
-  background: black; /* 添付画像のような黒背景 */
-}
 
 /* Masonryグリッド全体のスタイル */
 .my-masonry-grid {
@@ -13,22 +8,15 @@
 
 /* 各カラムのスタイル */
 .my-masonry-grid_column {
-  padding-left: 10px;
   background-clip: padding-box;
 }
 
-/* 各カードの間隔 */
-.my-masonry-grid_column > div {
-  margin-bottom: 10px;
-}
+
 
 /* カード全体のスタイル */
 .image-wrapper {
   overflow: hidden;
-  border-radius: 8px;
   background: #fff; /* カードの背景色（白） */
-  border: 1px solid #444; /* ダークグレーの枠 枠線 */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
   opacity: 0; /* 初期状態で非表示 */
   transform: translateX(-50px); /* 左から開始 */
   transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* スムーズな変化 */
@@ -52,12 +40,6 @@
 /* ホバー時のエフェクト */
 .image-wrapper img:hover {
   transform: scale(1.05);
-}
-
-/* 画像下の情報エリア */
-.image-info {
-  padding: 10px;
-  text-align: left;
 }
 
 /* タイトルのスタイル */
@@ -146,5 +128,22 @@
   100% {
     opacity: 1;
     transform: translateX(0); /* 元の位置に */
+  }
+}
+
+.image-wrapper.visible {
+  opacity: 1;
+  transform: scale(1.05);
+  animation: fadeInZoom 0.6s ease-out forwards;
+}
+
+@keyframes fadeInZoom {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.05);
   }
 }

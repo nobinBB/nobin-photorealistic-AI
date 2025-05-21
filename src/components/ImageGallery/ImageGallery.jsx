@@ -1,90 +1,60 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Masonry from "react-masonry-css";
 import "./ImageGallery.css";
 import "./reset.css";
 
-// 画像を動的にインポート
-const imageModules = import.meta.glob("../../assets/images/gallery-image (*.png)", { eager: true });
-
-// コードのリスト（36個分）
-const codes = [
-  "1girl, stellar loussier, gundam",
-  "1girl, hyuuga hinata, naruto (series)",
-  "1girl, haruno sakura, pink hair, naruto (series)",
-  "1girl, uchiha sarada, naruto (series)",
-  "1girl, inoue orihime, bleach",
-  "1girl, shizuku (kantoku), original",
-  "1girl, chitanda eru, hyouka",
-  "1girl, izayoi sakuya, touhou",
-  "1girl, nena trinity, gundam",
-  "1girl, hayakawa tazuna, umamusume",
-  "1girl, arona's sensei doodle (blue archive), blue archive",
-  "1girl, sinon (sao-alo), sword art online",
-  "1girl, eva 02, neon genesis evangelion",
-  "1girl, ogami sakura, danganronpa (series)",
-  "1girl, kiana kaslana (herrscher of finality), honkai (series)",
-  "1girl, pneuma (xenoblade), xenoblade chronicles (series)",
-  "1girl, mythra (xenoblade), xenoblade chronicles (series)",
-  "1girl, dokugamine riruka, bleach",
-  "1girl, koshimizu toru, nijisanji",
-  "1girl, aura (sousou no frieren), sousou no frieren",
-  "1girl, nishikino maki, love live!",
-  "1girl, hoshimachi suisei (school uniform), hololive",
-  "1girl, leafa, sword art online",
-  "1other, pom-pom (honkai star rail), honkai star rail",
-  "1girl, yonah, nier (series)",
-  "1girl, pavolia reine (1st costume), hololive",
-  "1girl, enterprise (azur lane), azur lane",
-  "1girl, murasaki shion (5th costume), hololive",
-  "1girl, okita souji alter (first ascension) (fate), fate/grand order",
-  "1girl, fran (ff12), final fantasy",
-  "1girl, yuuki (sao), sword art online",
-  "1girl, silica (sao-alo), sword art online",
-  "1girl, bambietta basterbine, bleach",
-  "1girl, matsumoto rangiku, bleach",
-  "1girl, alice zuberg, sword art online",
-  "1girl, matou sakura, fate (series)",
-];
+const imageModules = import.meta.glob("../../assets/images/g-image (*.png)", { eager: true });
 
 const ImageGallery = () => {
   const [images] = useState(() =>
     Object.keys(imageModules)
       .sort()
-      .map((path, index) => ({
-        src: imageModules[path].default, // Viteが解決するパスを使用
-        code: codes[index],
+      .map((path) => ({
+        src: imageModules[path].default,
       }))
   );
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // ウィンドウ幅に基づいて表示する画像の枚数を決定
+  const maxImages = useMemo(() => {
+    if (windowWidth >= 1280) return images.length; // 1280px以上: 全画像
+    if (windowWidth >= 1024) return 8;
+    if (windowWidth >= 768) return 6;
+    return 4; // 768px未満: 4枚
+  }, [windowWidth, images.length]);
+
+  const displayImages = useMemo(() => images.slice(0, maxImages), [images, maxImages]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [visibleImages, setVisibleImages] = useState([]);
 
   useEffect(() => {
-    const timers = images.map((_, index) =>
+    const timers = displayImages.map((_, index) =>
       setTimeout(() => {
         setVisibleImages((prev) => [...prev, index]);
       }, index * 300)
     );
     return () => timers.forEach(clearTimeout);
-  }, [images]);
+  }, [displayImages]);
 
-  const handleImageClick = (image) => {
-    setSelectedImage(image);
-    setIsModalOpen(true);
-  };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedImage(null);
-  };
 
   const breakpointColumnsObj = {
     default: 6,
-    1280: 5,
-    1100: 3,
-    700: 2,
-    500: 1,
+    1280: 4,
+    1024: 3,
+    768: 2,
+    0: 2,
   };
 
   return (
@@ -94,7 +64,7 @@ const ImageGallery = () => {
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
       >
-        {images.map((image, index) => (
+        {displayImages.map((image, index) => (
           <div
             key={index}
             className={`image-wrapper ${visibleImages.includes(index) ? "visible" : ""}`}
@@ -102,14 +72,8 @@ const ImageGallery = () => {
             <img
               src={image.src}
               alt={`Image ${index}`}
-              onClick={() => handleImageClick(image)}
-              style={{ cursor: "pointer" }}
               onError={(e) => console.log(`Failed to load image ${index}:`, image.src)}
             />
-            <div className="image-info">
-              <h3 className="image-title">{image.title}</h3>
-              <p className="image-code">{image.code}</p>
-            </div>
           </div>
         ))}
       </Masonry>
